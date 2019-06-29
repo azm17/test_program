@@ -5,8 +5,10 @@ Created on Sat Jun 29 17:56:33 2019
 @author: Azumi Mamiya
 
 pip3 install flask
+pip3 install mysql-connector-python
 """
 from flask import Flask,request, render_template
+import datetime
 import my_function2 as my_func
 
 app = Flask(__name__)
@@ -42,9 +44,11 @@ def show():
     userpass = request.form['pass']
     print("ID:{} GET ".format(usernid),end='')
     try:
-        data=my_func.sql_data_get(usernid,userpass,SQLserver_port,SQLserver_host,database_name)
-        print(data)
-        return 'OK'
+        d=my_func.sql_data_get(usernid,userpass,SQLserver_port,SQLserver_host,database_name)[0]
+        
+        #for data in data_list:
+        sentence="{} {} {} {} {} {} {} {} \n".format(d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7])
+        return sentence
     except:
         print('Fail')
         return 'NG'
